@@ -1,17 +1,7 @@
 import { memo } from 'react'
 import { motion } from 'framer-motion'
 import { profile } from '../data/portfolio'
-import { riseIn, stagger } from '../animations/motion'
-
-const quickLinks = [
-  ['About', 'about'],
-  ['Skills', 'skills'],
-  ['Experience', 'experience'],
-  ['Projects', 'projects'],
-  ['Education', 'education'],
-  ['Certifications', 'certifications'],
-  ['Contact', 'contact'],
-]
+import { riseIn } from '../animations/motion'
 
 const socialLinks = [
   { label: 'GitHub', href: '#contact', icon: 'GH' },
@@ -21,8 +11,15 @@ const socialLinks = [
 ]
 
 function FooterComponent() {
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const brandContentStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.8rem',
+    marginBottom: '1.8rem',
+  }
+
+  const textResetStyle = {
+    margin: 0,
   }
 
   return (
@@ -30,64 +27,44 @@ function FooterComponent() {
       <div className="footer-watermark" aria-hidden="true">
         PRANAV
       </div>
+
       <div className="footer-stars" aria-hidden="true" />
       <div className="footer-beam" aria-hidden="true" />
-      <motion.div className="footer-shell" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
+
+      <motion.div
+        className="footer-shell"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+      >
         <motion.div className="footer-brand" variants={riseIn}>
-          <span className="eyebrow">Portfolio Signal</span>
-          <h2>K PRANAV ESWAR</h2>
-          <p>Learning. Building. Evolving. 🚀</p>
-          <p>Full Stack Developer | Cybersecurity Enthusiast | MCA Student</p>
+          <div style={brandContentStyle}>
+            <h2 style={textResetStyle}>K PRANAV ESWAR</h2>
+            <p style={textResetStyle}>Learning. Building. Evolving. 🚀</p>
+            <p style={textResetStyle}>
+              Full Stack Developer | Cybersecurity Enthusiast | MCA Student
+            </p>
+          </div>
+
           <div className="footer-socials" aria-label="Social links">
             {socialLinks.map((social, index) => (
               <motion.a
+                key={social.label}
                 className="social-button"
                 href={social.href}
                 target={social.href.startsWith('http') ? '_blank' : undefined}
                 rel={social.href.startsWith('http') ? 'noreferrer' : undefined}
-                key={social.label}
                 aria-label={social.label}
-                variants={riseIn}
-                style={{ animationDelay: `${index * 0.14}s` }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
                 <span>{social.icon}</span>
                 <i>{social.label}</i>
               </motion.a>
             ))}
           </div>
-        </motion.div>
-
-        <motion.nav className="footer-links" variants={riseIn} aria-label="Footer quick links">
-          <h3>Quick Links</h3>
-          {quickLinks.map(([label, id]) => (
-            <button type="button" key={id} onClick={() => scrollTo(id)}>
-              {label}
-            </button>
-          ))}
-        </motion.nav>
-
-        <motion.div className="footer-contact" variants={riseIn}>
-          <h3>Contact</h3>
-          <a href={`mailto:${profile.email}`}>
-            <span>@</span>
-            {profile.email}
-          </a>
-          <a href={`tel:${profile.phone.replaceAll(' ', '')}`}>
-            <span>☎</span>
-            {profile.phone}
-          </a>
-          <p>
-            <span>⌖</span>
-            {profile.location}
-          </p>
-          <a href={`https://${profile.linkedin}`} target="_blank" rel="noreferrer">
-            <span>in</span>
-            LinkedIn
-          </a>
-          <p>
-            <span>GH</span>
-            GitHub
-          </p>
         </motion.div>
       </motion.div>
 
