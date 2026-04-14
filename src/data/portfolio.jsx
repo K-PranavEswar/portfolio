@@ -5,10 +5,14 @@ import phpCert from '../certificates/php.png'
 import fullstackCert from '../certificates/fullstack.png'
 import pranavImg from '../assets/pranav.png'
 
+// Your project images
 import brotracksImg from '../projects/brotrack.png'
 import disasterReliefImg from '../projects/relieflink.png'
 import medinetImg from '../projects/medinet.png'
 
+// ----------------------------------------------------------------------
+// ICONS IMPORT (Using react-icons)
+// ----------------------------------------------------------------------
 import { FaHtml5, FaCss3Alt, FaBootstrap, FaReact, FaNodeJs, FaPython, FaPhp, FaFigma, FaGitAlt, FaLinux } from 'react-icons/fa'
 import { SiNextdotjs, SiTailwindcss, SiThreedotjs, SiFramer, SiExpress, SiMongodb, SiFlask, SiMysql } from 'react-icons/si'
 
