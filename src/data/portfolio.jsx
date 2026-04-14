@@ -3,15 +3,12 @@ import pythonCert from '../certificates/python.png'
 import mernCert from '../certificates/mern.png'
 import phpCert from '../certificates/php.png'
 import fullstackCert from '../certificates/fullstack.png'
+import pranavImg from '../assets/pranav.png'
 
-// Your project images
 import brotracksImg from '../projects/brotrack.png'
 import disasterReliefImg from '../projects/relieflink.png'
 import medinetImg from '../projects/medinet.png'
 
-// ----------------------------------------------------------------------
-// ICONS IMPORT (Using react-icons)
-// ----------------------------------------------------------------------
 import { FaHtml5, FaCss3Alt, FaBootstrap, FaReact, FaNodeJs, FaPython, FaPhp, FaFigma, FaGitAlt, FaLinux } from 'react-icons/fa'
 import { SiNextdotjs, SiTailwindcss, SiThreedotjs, SiFramer, SiExpress, SiMongodb, SiFlask, SiMysql } from 'react-icons/si'
 
@@ -24,7 +21,7 @@ export const profile = {
   linkedin: 'linkedin.com/in/k-pranav-eswar1',
   github: 'https://github.com/K-PranavEswar',
   instagram: 'https://www.instagram.com/equizzle_arts',
-  photo: '/pranav.png',
+  photo: pranavImg,
 }
 
 export const aboutText =
