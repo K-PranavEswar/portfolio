@@ -1,18 +1,27 @@
-import { memo, useMemo, useRef } from 'react'
+import { memo, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
 import {
   Float,
   Html,
   Stars,
-  OrbitControls, // <-- PresentationControls matti OrbitControls aakki
+  OrbitControls,
   ContactShadows,
 } from '@react-three/drei'
 import * as THREE from 'three'
 
-const iconLabels = ['React Js', 'Node Js', 'MongoDb', 'Express Js', 'Three Js', 'Python', 'Flask', 'PHP', 'MySQL', ]
+const iconLabels = [
+  'React Js',
+  'Node Js',
+  'MongoDb',
+  'Express Js',
+  'Three Js',
+  'Python',
+  'Flask',
+  'PHP',
+  'MySQL',
+]
 
 function Workstation() {
-  const groupRef = useRef()
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
 
   const icons = useMemo(
@@ -22,19 +31,18 @@ function Workstation() {
         return {
           label,
           position: [
-            Math.cos(angle) * 2.3,
-            Math.sin(angle * 1.4) * 0.35 + 0.45,
-            Math.sin(angle) * 2.3,
+            Math.cos(angle) * 2.4,
+            Math.sin(angle * 1.2) * 0.4 + 0.5,
+            Math.sin(angle) * 2.4,
           ],
         }
       }),
     [],
   )
 
-  // PresentationControls wrapper remove cheythu, pure group mathram
   return (
-    <group ref={groupRef}>
-      <Float speed={1.5} rotationIntensity={0.25} floatIntensity={0.45}>
+    <group>
+      <Float speed={1.2} rotationIntensity={0.18} floatIntensity={0.35}>
         <mesh position={[0, -0.35, 0]} rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[2.25, 0.08, 1.35]} />
           <meshStandardMaterial
@@ -86,7 +94,7 @@ function Workstation() {
 
       {!isMobile &&
         icons.map((item) => (
-          <Float key={item.label} speed={1.1} floatIntensity={0.45}>
+          <Float key={item.label} speed={1} floatIntensity={0.35}>
             <Html center position={item.position} transform distanceFactor={5}>
               <span className="skill-orbit">{item.label}</span>
             </Html>
@@ -98,7 +106,7 @@ function Workstation() {
 
 function HeroSceneComponent() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-  const particleCount = isMobile ? 28 : 96
+  const particleCount = isMobile ? 24 : 72
 
   return (
     <Canvas
@@ -109,40 +117,41 @@ function HeroSceneComponent() {
     >
       <color attach="background" args={['#020203']} />
       <ambientLight intensity={0.7} />
-      <pointLight position={[3, 4, 4]} color="#ff2038" intensity={70} />
+      <pointLight position={[3, 4, 4]} color="#ff2038" intensity={60} />
       <spotLight
         position={[-3, 3.5, 2.5]}
         angle={0.4}
         penumbra={1}
         color="#ff4b55"
-        intensity={80}
+        intensity={70}
       />
 
       <Stars
-        radius={30}
-        depth={14}
+        radius={28}
+        depth={12}
         count={particleCount}
-        factor={2.2}
+        factor={2}
         saturation={0}
         fade
-        speed={0.3}
+        speed={0.25}
       />
 
-      {/* OrbitControls Canvas-il add cheythu */}
-      <OrbitControls 
-        autoRotate={true}         // Automatic aayi thiriyan
-        autoRotateSpeed={1.5}     // Rotation speed adjust cheyyam
-        enableZoom={false}        // Scroll cheyumbol zoom aavathirikkan
-        enablePan={false}         // Model position move aavathirikkan
-        minPolarAngle={Math.PI/3} // Mukkallil ninnu over aayi thazhekku nokkathirikan
-        maxPolarAngle={Math.PI/2} // Thazhe ninnu mukalilekku over aayi nokkathirikan
+      <OrbitControls
+        autoRotate
+        autoRotateSpeed={0.6}
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.05}
+        minPolarAngle={Math.PI / 3}
+        maxPolarAngle={Math.PI / 2}
       />
 
       <Workstation />
 
       <ContactShadows
         position={[0, -1.1, 0]}
-        opacity={0.4}
+        opacity={0.35}
         scale={8}
         blur={2}
       />
