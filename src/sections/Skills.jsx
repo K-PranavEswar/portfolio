@@ -79,8 +79,7 @@ function Skills() {
 
       <SectionHeader
         eyebrow="Capabilities"
-        title="Technical Arsenal."
-        copy="A categorized view of my working stack, measured in practical confidence."
+        title="Technical Side"
       />
 
       <motion.div
