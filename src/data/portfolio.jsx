@@ -3,7 +3,6 @@ import pythonCert from '../certificates/python.png'
 import mernCert from '../certificates/mern.png'
 import phpCert from '../certificates/php.png'
 import fullstackCert from '../certificates/fullstack.png'
-import pranavImg from '../assets/pranav.png'
 
 import broBg from '../projects/bg-brotracks.webp'
 import reliefBg from '../projects/bg-relieflink.webp'
@@ -22,14 +21,13 @@ import { SiNextdotjs, SiTailwindcss, SiThreedotjs, SiFramer, SiExpress, SiMongod
 
 export const profile = {
   name: 'K PRANAV ESWAR',
-  role: 'Software Developer | MERN Stack | Penetration Tester',
+  role: 'Software Developer | Artist | Graphic Designer',
   location: 'Trivandrum, Kerala',
   email: 'pranavartist1@gmail.com',
   phone: '+91 9074261433',
   linkedin: 'linkedin.com/in/k-pranav-eswar1',
   github: 'https://github.com/K-PranavEswar',
   instagram: 'https://www.instagram.com/equizzle_arts',
-  photo: pranavImg,
 }
 
 export const aboutText =

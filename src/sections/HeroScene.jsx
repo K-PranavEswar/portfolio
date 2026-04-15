@@ -22,26 +22,30 @@ const iconLabels = [
 ]
 
 function Workstation() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+  const isMobile = window.innerWidth < 640
 
-  const icons = useMemo(
-    () =>
-      iconLabels.map((label, index) => {
-        const angle = (index / iconLabels.length) * Math.PI * 2
-        return {
-          label,
-          position: [
-            Math.cos(angle) * 2.4,
-            Math.sin(angle * 1.2) * 0.4 + 0.5,
-            Math.sin(angle) * 2.4,
-          ],
-        }
-      }),
-    [],
-  )
+  const icons = useMemo(() => {
+    return iconLabels.map((label, index) => {
+      const angle = (index / iconLabels.length) * Math.PI * 2
+      const radius = isMobile ? 1.9 : 2.4
+      const height = isMobile ? 0.3 : 0.5
+
+      return {
+        label,
+        position: [
+          Math.cos(angle) * radius,
+          Math.sin(angle * 1.2) * 0.35 + height,
+          Math.sin(angle) * radius,
+        ],
+      }
+    })
+  }, [isMobile])
 
   return (
-    <group>
+    <group
+      scale={isMobile ? 0.72 : 1}
+      position={[0, isMobile ? -0.2 : 0, 0]}
+    >
       <Float speed={1.2} rotationIntensity={0.18} floatIntensity={0.35}>
         <mesh position={[0, -0.35, 0]} rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[2.25, 0.08, 1.35]} />
@@ -60,15 +64,6 @@ function Workstation() {
             emissive="#75000b"
             emissiveIntensity={0.8}
             metalness={0.35}
-          />
-        </mesh>
-
-        <mesh position={[0, -0.12, 0.38]}>
-          <boxGeometry args={[1.25, 0.06, 0.5]} />
-          <meshStandardMaterial
-            color="#121217"
-            emissive="#4a0007"
-            roughness={0.25}
           />
         </mesh>
 
@@ -92,32 +87,40 @@ function Workstation() {
         </mesh>
       </Float>
 
-      {!isMobile &&
-        icons.map((item) => (
-          <Float key={item.label} speed={1} floatIntensity={0.35}>
-            <Html center position={item.position} transform distanceFactor={5}>
-              <span className="skill-orbit">{item.label}</span>
-            </Html>
-          </Float>
-        ))}
+      {icons.map((item) => (
+        <Float key={item.label} speed={1} floatIntensity={0.35}>
+          <Html
+            center
+            position={item.position}
+            transform
+            distanceFactor={isMobile ? 7 : 5}
+          >
+            <span className="skill-orbit">{item.label}</span>
+          </Html>
+        </Float>
+      ))}
     </group>
   )
 }
 
 function HeroSceneComponent() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-  const particleCount = isMobile ? 24 : 72
+  const isMobile = window.innerWidth < 640
+  const particleCount = isMobile ? 18 : 72
 
   return (
     <Canvas
       className="hero-canvas"
       dpr={isMobile ? [1, 1] : [1, 1.5]}
-      camera={{ position: [0, 1.1, 5.2], fov: 42 }}
+      camera={{
+        position: isMobile ? [0, 1, 6.8] : [0, 1.1, 5.2],
+        fov: isMobile ? 50 : 42,
+      }}
       gl={{ antialias: true, alpha: true }}
     >
       <color attach="background" args={['#020203']} />
       <ambientLight intensity={0.7} />
       <pointLight position={[3, 4, 4]} color="#ff2038" intensity={60} />
+
       <spotLight
         position={[-3, 3.5, 2.5]}
         angle={0.4}
@@ -138,13 +141,11 @@ function HeroSceneComponent() {
 
       <OrbitControls
         autoRotate
-        autoRotateSpeed={0.6}
+        autoRotateSpeed={isMobile ? 0.35 : 0.6}
         enableZoom={false}
         enablePan={false}
         enableDamping
         dampingFactor={0.05}
-        minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 2}
       />
 
       <Workstation />
