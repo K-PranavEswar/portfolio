@@ -219,7 +219,7 @@ export const education = [
     specialization: 'Master of Computer Applications',
     subjects: ['Advanced Web Engineering', 'Data Structures', 'Database Systems', 'Software Architecture'],
     grade: 'Pursuing',
-    logo: 'LMCST',
+    logo: 'KTU',
   },
   {
     degree: 'BCA',
@@ -228,7 +228,7 @@ export const education = [
     specialization: 'Computer Science',
     subjects: ['Programming', 'Web Development', 'Operating Systems', 'DBMS'],
     grade: '7.9',
-    logo: 'CCV',
+    logo: 'KU',
   },
   {
     degree: 'Higher Secondary Education',
