@@ -10,9 +10,9 @@ import reliefBg from '../projects/bg-relieflink.webp'
 import medinetBg from '../projects/bg-medinet.webp'
 
 // Your project images
-import brotracksImg from '../projects/brotrack.png'
-import disasterReliefImg from '../projects/relieflink.png'
-import medinetImg from '../projects/medinet.png'
+import brotracksImg from '../projects/brotrack.webp'
+import disasterReliefImg from '../projects/relieflink.webp'
+import medinetImg from '../projects/medinet.webp'
 
 // ----------------------------------------------------------------------
 // ICONS IMPORT (Using react-icons)
