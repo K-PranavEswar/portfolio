@@ -5,6 +5,10 @@ import phpCert from '../certificates/php.png'
 import fullstackCert from '../certificates/fullstack.png'
 import pranavImg from '../assets/pranav.png'
 
+import broBg from '../projects/bg-brotracks.webp'
+import reliefBg from '../projects/bg-relieflink.webp'
+import medinetBg from '../projects/bg-medinet.webp'
+
 // Your project images
 import brotracksImg from '../projects/brotrack.png'
 import disasterReliefImg from '../projects/relieflink.png'
@@ -139,6 +143,7 @@ export const projects = [
     tags: ['PHP', 'GPS', 'Realtime'],
     gradient: 'from-red-500 via-rose-900 to-black',
     image: brotracksImg,
+    background: broBg,
     copy: 'A safety-first transport command center for live school bus tracking, route visibility, and parent confidence.',
     sourceCode: 'https://github.com/K-PranavEswar/brotracks',
   },
@@ -148,6 +153,7 @@ export const projects = [
     tags: ['PHP', 'Maps', 'Emergency Response', 'Resource Management'],
     gradient: 'from-red-700 via-zinc-900 to-black',
     image: disasterReliefImg,
+    background: reliefBg,
     copy: 'A rapid-response tracker for relief resources, location-aware distribution, and operational clarity during crisis windows.',
     sourceCode: 'https://github.com/K-PranavEswar/relieflink',
   },
@@ -157,6 +163,7 @@ export const projects = [
     tags: ['PHP', 'Emergency', 'Maps', 'Healthcare'],
     gradient: 'from-rose-600 via-red-950 to-zinc-950',
     image: medinetImg,
+    background: medinetBg,
     copy: 'A GPS-assisted emergency support concept that accelerates accident response and keeps critical care signals visible.',
     sourceCode: 'https://github.com/K-PranavEswar/medinet',
   },
