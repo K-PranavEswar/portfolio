@@ -1,1 +1,0 @@
-var e={hidden:{opacity:0,y:28},show:{opacity:1,y:0}},t={hidden:{},show:{transition:{staggerChildren:.08}}},n={once:!0,amount:.2};export{t as n,n as r,e as t};

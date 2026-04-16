@@ -1,0 +1,1 @@
+var e=`/portfolio/assets/snow-DiZRjd8M.mp4`;export{e as t};
