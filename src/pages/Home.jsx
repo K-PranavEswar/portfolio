@@ -13,7 +13,7 @@ const Education = lazy(() => import('../sections/Education'))
 const Projects = lazy(() => import('../sections/Projects'))
 const Certifications = lazy(() => import('../sections/Certifications'))
 const Contact = lazy(() => import('../sections/Contact'))
-
+const TechOrbitSection = lazy(() => import('../components/TechOrbitSection'))
 function SectionFallback() {
   return (
     <div className="min-h-[40vh] flex items-center justify-center text-white text-lg tracking-widest animate-pulse">
@@ -34,6 +34,7 @@ function Home() {
   <Hero />
 
   <Suspense fallback={<SectionFallback />}>
+    <TechOrbitSection />
     <About />
     <Skills />
     <Projects />

@@ -1,140 +1,162 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { SectionHeader } from '../components/SectionHeader'
 import { skillCategories } from '../data/portfolio'
-import { riseIn, viewport } from '../animations/motion'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
+const chipVariants = {
+  initial: { opacity: 0, scale: 0.92, y: 10 },
+  animate: {
     opacity: 1,
-    transition: { staggerChildren: 0.15 }
-  }
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: 'easeOut' },
+  },
+  hover: {
+    y: -8,
+    scale: 1.05,
+    boxShadow: '0px 10px 30px rgba(255, 32, 56, 0.2)',
+    borderColor: 'rgba(255, 32, 56, 0.5)',
+  },
 }
 
-// -------------------------------------------------------------------
-// Component for the Circular Ring Progress
-// -------------------------------------------------------------------
-const CircularProgress = ({ skill, index }) => {
-  const radius = 34; // Size of the circle
-  const circumference = 2 * Math.PI * radius;
-  // Progress calc - ensures minimum fill for visibility
-  const strokeDashoffset = circumference - (Math.max(skill.level, 15) / 100) * circumference;
+const SkillChip = memo(({ skill }) => (
+  <motion.div
+    variants={chipVariants}
+    initial="initial"
+    whileInView="animate"
+    whileHover="hover"
+    viewport={{ once: true }}
+    className="flex items-center gap-4 px-6 py-4 min-w-[220px] bg-[#0b0b0f]/90 backdrop-blur-xl border border-white/10 rounded-2xl cursor-default"
+  >
+    <span className="text-2xl filter drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+      {skill.icon}
+    </span>
 
-  return (
-    <div className="group flex flex-col items-center gap-3 w-24 flex-shrink-0">
-      <div className="relative w-20 h-20 flex items-center justify-center">
-        
-        {/* SVG Circles */}
-        <svg className="absolute inset-0 w-full h-full transform -rotate-90 pointer-events-none">
-          {/* Background Track (Grey) */}
-          <circle
-            cx="50%"
-            cy="50%"
-            r={radius}
-            className="stroke-white/[0.05]"
-            strokeWidth="6"
-            fill="transparent"
-          />
-          {/* Progress Fill (Red) - Removed animation to avoid glitches during scroll */}
-          <circle
-            cx="50%"
-            cy="50%"
-            r={radius}
-            className="stroke-[#ff2038] transition-all duration-500"
-            strokeWidth="6"
-            fill="transparent"
-            strokeLinecap="round"
-            style={{ 
-              strokeDasharray: circumference,
-              strokeDashoffset: strokeDashoffset,
-              filter: "drop-shadow(0px 0px 4px rgba(255, 32, 56, 0.4))" 
-            }}
-          />
-        </svg>
-
-        {/* Icon Inside the Circle */}
-        <div className="relative z-10 text-3xl text-gray-400 group-hover:text-white transition-colors duration-300 group-hover:scale-110 transform">
-          {skill.icon}
-        </div>
-      </div>
-
-      {/* Skill Name */}
-      <span className="text-xs font-medium text-gray-400 tracking-wide group-hover:text-gray-200 transition-colors text-center whitespace-nowrap">
+    <div className="flex flex-col">
+      <strong className="text-white text-sm tracking-wide">
         {skill.name}
-      </span>
+      </strong>
+
+      <div className="flex items-center gap-2 mt-1">
+        <div className="h-1 w-14 bg-white/10 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[#ff2038]"
+            style={{ width: `${skill.level}%` }}
+          />
+        </div>
+
+        <span className="text-[10px] text-gray-400 font-mono uppercase tracking-tight">
+          {skill.level}%
+        </span>
+      </div>
     </div>
-  );
-};
-// -------------------------------------------------------------------
+  </motion.div>
+))
 
-function Skills() {
+function SkillLane({ skills, reverse = false, speed = 28 }) {
+  const duplicatedSkills = useMemo(
+    () => [...skills, ...skills, ...skills],
+    [skills]
+  )
+
   return (
-    <section className="section py-24 relative overflow-hidden" id="skills">
-      {/* Background Grid Pattern */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-      />
-
-      <SectionHeader
-        eyebrow="Capabilities"
-        title="Technical Side"
-      />
+    <div className="relative w-screen ml-[calc(50%-50vw)] overflow-hidden">
+      <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-[#020203] via-[#020203]/80 to-transparent z-20 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-[#020203] via-[#020203]/80 to-transparent z-20 pointer-events-none" />
 
       <motion.div
-        className="max-w-6xl mx-auto px-4 md:px-8 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={viewport}
+        className="flex gap-6 w-max px-6"
+        animate={{
+          x: reverse ? ['-33.333%', '0%'] : ['0%', '-33.333%'],
+        }}
+        transition={{
+          duration: speed,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
       >
-        {skillCategories.map((category) => {
-          // Seamless loop-nu vendi skills array 3 thavana duplicate cheyyunnu
-          const marqueeSkills = [...category.skills, ...category.skills, ...category.skills];
-          
-          return (
-            <motion.div
-              key={category.title}
-              variants={riseIn}
-              className="p-6 md:p-8 rounded-[2rem] bg-[#07070a]/80 backdrop-blur-md border border-white/[0.05] shadow-[inset_0_0_80px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col"
-            >
-              {/* Category Header */}
-              <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/[0.05] z-10">
-                <h3 className="text-xl md:text-2xl font-bold text-white tracking-wide">
-                  {category.title}
-                </h3>
-              </div>
-
-              {/* Floatable Marquee Container */}
-              <div className="relative w-full overflow-hidden flex-grow flex items-center">
-                
-                {/* Gradient Masks for smooth entry/exit at the edges */}
-                <div className="absolute inset-y-0 left-0 w-8 md:w-12 bg-gradient-to-r from-[#07070a] to-transparent z-10 pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-8 md:w-12 bg-gradient-to-l from-[#07070a] to-transparent z-10 pointer-events-none" />
-
-                {/* The Scrolling Track */}
-                <motion.div 
-                  className="flex gap-6 w-max"
-                  // Moves from 0 to -33.33% because we duplicated the array 3 times
-                  animate={{ x: ["0%", "-33.33%"] }} 
-                  transition={{ 
-                    ease: "linear", 
-                    duration: 15, // Change this value to make it faster/slower
-                    repeat: Infinity 
-                  }}
-                >
-                  {marqueeSkills.map((skill, index) => (
-                    // Using a combination of skill name and index for a unique key since array is duplicated
-                    <CircularProgress key={`${skill.name}-${index}`} skill={skill} index={index} />
-                  ))}
-                </motion.div>
-                
-              </div>
-            </motion.div>
-          )
-        })}
+        {duplicatedSkills.map((skill, index) => (
+          <SkillChip
+            key={`${skill.name}-${index}`}
+            skill={skill}
+          />
+        ))}
       </motion.div>
+    </div>
+  )
+}
+
+function Skills() {
+  const allSkills = useMemo(
+    () => skillCategories.flatMap((cat) => cat.skills),
+    []
+  )
+
+  const midpoint = Math.ceil(allSkills.length / 2)
+  const firstLane = allSkills.slice(0, midpoint)
+  const secondLane = allSkills.slice(midpoint)
+
+  return (
+    <section
+      className="section section-wide py-20 overflow-hidden bg-[#020203] relative"
+      id="skills"
+    >
+      {/* cinematic background ambience */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,32,56,0.05)_0%,transparent_70%)]" />
+
+        <motion.div
+          className="absolute top-[10%] left-[-5%] h-[420px] w-[420px] rounded-full bg-[#ff2038]/10 blur-[140px]"
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.25, 0.55, 0.25],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+
+        <motion.div
+          className="absolute bottom-[15%] right-[-5%] h-[350px] w-[350px] rounded-full bg-white/[0.03] blur-[120px]"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.35, 0.2],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
+      <div className="relative z-10">
+        <SectionHeader
+          eyebrow="Expertise"
+          title={
+            <>
+              <span className="text-white">TECH </span>
+              <span className="text-[#ff2038]">STACK</span>
+              <span className="text-white"> & TOOLS</span>
+            </>
+          }
+        />
+
+        <div className="relative z-10 flex flex-col gap-8 mt-6">
+          <SkillLane
+            skills={firstLane}
+            speed={24}
+          />
+
+          <SkillLane
+            skills={secondLane}
+            reverse
+            speed={30}
+          />
+        </div>
+      </div>
     </section>
   )
 }

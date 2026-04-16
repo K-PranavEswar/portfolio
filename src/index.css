@@ -647,6 +647,12 @@ main {
   padding-block: clamp(4.5rem, 10vw, 8.5rem);
   scroll-margin-top: 120px;
 }
+.section-wide {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
 
 .section-header {
   display: grid;
@@ -662,7 +668,11 @@ main {
   line-height: 0.92;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+  color: #ffffff;
+  background: none;
+  -webkit-text-fill-color: #ffffff;
 }
+
 
 .section-header p {
   max-width: 760px;
@@ -1140,6 +1150,93 @@ main {
   transition:
     opacity 260ms ease,
     transform 260ms ease;
+}
+
+/* premium skill highway */
+.skills-road-wrapper {
+  position: relative;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  display: grid;
+  gap: 1.2rem;
+}
+
+.skills-lane {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.skills-lane::before,
+.skills-lane::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.skills-lane::before {
+  left: 0;
+  background: linear-gradient(to right, #020204, transparent);
+}
+
+.skills-lane::after {
+  right: 0;
+  background: linear-gradient(to left, #020204, transparent);
+}
+
+.skills-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  padding: 0 1rem;
+  will-change: transform;
+}
+
+.skill-road-chip {
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  background: rgba(7, 7, 10, 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 22px rgba(255, 38, 61, 0.04);
+  transition: all 0.3s ease;
+}
+
+.skill-road-chip:hover {
+  transform: translateY(-6px) scale(1.04);
+  border-color: rgba(255, 38, 61, 0.3);
+  box-shadow: 0 0 28px rgba(255, 38, 61, 0.12);
+}
+
+.skill-road-icon {
+  font-size: 1.6rem;
+}
+
+.skill-road-text {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.skill-road-text strong {
+  color: white;
+  font-size: 0.92rem;
+}
+
+.skill-road-text span {
+  color: #ff263d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* Education */
