@@ -2228,22 +2228,3 @@ main {
     animation: none !important;
   }
 }
-.hero-role-text {
-  max-width: 900px;
-  margin-inline: auto;
-  text-wrap: balance;
-}
-
-@media (min-width: 1024px) {
-  .hero-role-text {
-    font-size: 2rem;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
-  }
-}
-
-@media (min-width: 1400px) {
-  .hero-role-text {
-    font-size: 2.3rem;
-  }
-}

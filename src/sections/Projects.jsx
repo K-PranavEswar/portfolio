@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import { projects } from '../data/portfolio'
@@ -22,14 +22,24 @@ const contentVariants = {
 
 function Projects() {
   const [[index, direction], setPage] = useState([0, 0])
-  
+
+  useEffect(() => {
+    projects.forEach((p) => {
+      const img1 = new Image()
+      img1.src = p.image
+      if (p.background) {
+        const img2 = new Image()
+        img2.src = p.background
+      }
+    })
+  }, [])
+
   const active = projects[index]
 
   const paginate = (newDirection) => {
     let nextIndex = index + newDirection
     if (nextIndex < 0) nextIndex = projects.length - 1
     if (nextIndex >= projects.length) nextIndex = 0
-    
     setPage([nextIndex, newDirection])
   }
 
@@ -42,21 +52,20 @@ function Projects() {
       id="projects"
       className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-white/30"
     >
-      {/* Background Blur Effect */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={active.background || active.title}
-          initial={{ opacity: 0, scale: 1.1 }}
+          key={index}
+          initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
+          transition={{ duration: 1 }}
           className="absolute inset-0"
         >
           <img
             src={active.background || active.image}
             alt=""
-            className="h-full w-full object-cover opacity-20 blur-[100px] saturate-150"
-            aria-hidden="true"
+            loading="lazy"
+            className="h-full w-full object-cover opacity-20 blur-[40px] saturate-150"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/80 to-black" />
         </motion.div>
@@ -64,8 +73,6 @@ function Projects() {
 
       <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center">
         
-        {/* Left Column: Text Content */}
-        {/* Added: relative positioning, fixed min-height, and padding-bottom to keep dots stable */}
         <div className="relative flex min-h-[500px] w-full flex-col justify-center pb-16 sm:min-h-[550px] lg:min-h-[600px]">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -111,7 +118,7 @@ function Projects() {
                   href={active.sourceCode}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold backdrop-blur-xl transition-all hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-white/50"
+                  className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold backdrop-blur-xl transition-all hover:bg-white hover:text-black"
                 >
                   <ExternalLink size={18} className="transition-transform group-hover:-translate-y-0.5" />
                   View Source Code
@@ -120,14 +127,12 @@ function Projects() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Pagination Indicators - Now absolutely positioned to the bottom of the container */}
           <div className="absolute bottom-0 left-0 flex gap-3">
             {projects.map((_, dot) => (
               <button
                 key={dot}
                 onClick={() => jumpToSlide(dot)}
-                aria-label={`Go to slide ${dot + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 ${
+                className={`h-2 rounded-full transition-all duration-300 ${
                   dot === index 
                     ? 'w-8 bg-white' 
                     : 'w-2 bg-white/30 hover:bg-white/60'
@@ -137,7 +142,6 @@ function Projects() {
           </div>
         </div>
 
-        {/* Right Column: Image & Controls */}
         <div className="flex flex-col items-center lg:items-end">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -158,32 +162,32 @@ function Projects() {
               className="relative w-full max-w-lg cursor-grab active:cursor-grabbing"
             >
               <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm">
-                <div className="aspect-[16/10] w-full">
+                <div className="aspect-[16/10] w-full bg-zinc-800 animate-pulse">
                   <img
                     src={active.image}
                     alt={`${active.title} preview`}
+                    loading="eager"
+                    fetchpriority="high"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     draggable={false}
+                    onLoad={(e) => e.target.parentElement.classList.remove('animate-pulse')}
                   />
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Controls */}
           <div className="mt-8 flex gap-4">
             <button
               onClick={() => paginate(-1)}
-              aria-label="Previous project"
-              className="group rounded-full border border-white/20 bg-white/5 p-4 backdrop-blur-xl transition-all hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="group rounded-full border border-white/20 bg-white/5 p-4 backdrop-blur-xl transition-all hover:bg-white hover:text-black"
             >
               <ChevronLeft size={24} className="transition-transform group-hover:-translate-x-1" />
             </button>
 
             <button
               onClick={() => paginate(1)}
-              aria-label="Next project"
-              className="group rounded-full border border-white/20 bg-white/5 p-4 backdrop-blur-xl transition-all hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="group rounded-full border border-white/20 bg-white/5 p-4 backdrop-blur-xl transition-all hover:bg-white hover:text-black"
             >
               <ChevronRight size={24} className="transition-transform group-hover:translate-x-1" />
             </button>
